@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ocean & Seas News Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; transition: background-color 0.3s, color 0.3s; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        .dark ::-webkit-scrollbar-track { background: #2d3748; }
+        ::-webkit-scrollbar-thumb { background: #888; border-radius: 10px; }
+        .dark ::-webkit-scrollbar-thumb { background: 
+            #555; }
+        ::-webkit-scrollbar-thumb:hover { background: #555; }
+        .dark ::-webkit-scrollbar-thumb:hover { background: #333; }
+        .spinner { border: 4px solid rgba(0,0,0,0.1); width:36px; height:36px; border-radius:50%; border-left-color:#09f; animation:spin 1s linear infinite; }
+        .dark .spinner { border-left-color: #38bdf8; }
+        @keyframes spin { 0%{transform:rotate(0deg);}100%{transform:rotate(360deg);} }
+        .news-card { transition: transform 0.3s, box-shadow 0.3s; }
+        .news-card:hover { transform: translate
+            Y(-5px); box-shadow:0 10px 15px rgba(0,0,0,0.1); }
+        .dark .news-card:hover { box-shadow:0 10px 15px rgba(0,0,0,0.2); }
+        .modal-overlay { transition: opacity 0.3s ease; }
+        .modal-content { transition: transform 0.3s ease, opacity 0.3s ease; }
+    </style>
+</head>
+<body class="bg-slate-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 min-h-screen">
+<header class="bg-white/70 dark:bg-gray-800/70 backdrop-blur-md shadow-sm sticky top-0 z-10">
+    <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+        <div class="flex items-center space-x-3">
+            <h1 class="text-xl font-bold text-gray-900 dark:text-white">Ocean News Hub</h1>
+        </div>
+        <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
+            <svg id="theme-icon-light" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+            </svg>
+            <svg id="theme-icon-dark" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+            </svg>
+        </button>
+    </nav>
+</header>
+
+<div id="gemini-modal" class="modal-overlay fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4 hidden opacity-0">
+    <div class="modal-content bg-white dark:bg-gray-800 rounded-lg shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col transform scale-95 opacity-0">
+        <div class="flex justify-between items-center p-4 border-b dark:border-gray-700">
+            <h3 id="modal-title" class="text-xl font-bold">✨ AI Assistant</h3>
+            <button id="close-modal-btn" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600">✖</button>
+        </div>
+        <div id="modal-body" class="p-6 overflow-y-auto">
+            <div class="flex items-center justify-center h-48"><div class="spinner"></div></div>
+        </div>
+    </div>
+</div>
+
+<main class="container mx-auto px-6 py-8">
+    <div class="mb-8 text-center">
+        <button id="summarize-btn" class="bg-gradient-to-r from-blue-500 to-purple-600 text-white font-bold py-3 px-6 rounded-full shadow-lg disabled:opacity-50 disabled:cursor-not-allowed" disabled>✨ Get Today's News Summary</button>
+    </div>
+
+    <section id="ocean-news-section">
+        <h2 class="text-3xl font-bold mb-6 border-l-4 border-blue-500 pl-4">Latest Ocean & Seas News</h2>
+        <div id="ocean-news-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+        <div id="ocean-news-error" class="hidden text-center text-red-500 bg-red-100 dark:bg-red-900/50 p-4 rounded-lg"></div>
+    </section>
+
+    <section id="argo-news-section" class="mt-16">
+        <h2 class="text-3xl font-bold mb-6 border-l-4 border-teal-500 pl-4">Argo Floats News</h2>
+        <div id="argo-news-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+        <div id="argo-news-error" class="hidden text-center text-red-500 bg-red-100 dark:bg-red-900/50 p-4 rounded-lg"></div>
+    </section>
+</main>
+
+<footer class="bg-white dark:bg-gray-800 mt-16 border-t border-gray-200 dark:border-gray-700">
+    <div class="container mx-auto px-6 py-4 text-center text-gray-600 dark:text-gray-400">
+        <p>&copy; 2024 Ocean News Hub. All rights reserved.</p>
+    </div>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const themeToggle = document.getElementById('theme-toggle');
+    const lightIcon = document.getElementById('theme-icon-light');
+    const darkIcon = document.getElementById('theme-icon-dark');
+    const htmlEl = document.documentElement;
+    const summarizeBtn = document.getElementById('summarize-btn');
+    const modal = document.getElementById('gemini-modal');
+    const modalTitle = document.getElementById('modal-title');
+    const modalBody = document.getElementById('modal-body');
+    const closeModalBtn = document.getElementById('close-modal-btn');
+    
+    let allArticles = [];
+
+    const GNEWS_API_KEY = "a2f80714339587b2ba9a0a0a23fa628c";
+    const GEMINI_API_KEY = "AIzaSyDcl-hT_t_QYVXMu9UFycfyMlj-ptYrokE";
+
+    // Theme Switcher
+    htmlEl.classList.add(localStorage.getItem('theme') || 'light');
+    function updateIcon(theme) {
+        if (theme === 'dark') { lightIcon.classList.add('hidden'); darkIcon.classList.remove('hidden'); }
+        else { lightIcon.classList.remove('hidden'); darkIcon.classList.add('hidden'); }
+    }
+    updateIcon(htmlEl.classList.contains('dark') ? 'dark':'light');
+    themeToggle.addEventListener('click', () => {
+        const newTheme = htmlEl.classList.contains('dark') ? 'light':'dark';
+        htmlEl.classList.remove('light','dark'); htmlEl.classList.add(newTheme);
+        localStorage.setItem('theme', newTheme);
+        updateIcon(newTheme);
+    });
+
+    // Modal
+    function showModal(title, content=''){ modalTitle.textContent=title; modalBody.innerHTML=content||'<div class="flex items-center justify-center h-48"><div class="spinner"></div></div>'; modal.classList.remove('hidden'); setTimeout(()=>{ modal.classList.remove('opacity-0'); modal.querySelector('.modal-content').classList.remove('scale-95','opacity-0'); },10);}
+    function closeModal(){ modal.classList.add('opacity-0'); modal.querySelector('.modal-content').classList.add('scale-95','opacity-0'); setTimeout(()=>modal.classList.add('hidden'),300);}
+    closeModalBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click',(e)=>{if(e.target===modal) closeModal();});
+
+    // Gemini API Call
+    async function callGeminiAPI(prompt){
+        if(!GEMINI_API_KEY || GEMINI_API_KEY==="YOUR_GOOGLE_AI_API_KEY") return "Error: Google AI API Key missing.";
+        try{
+            const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${GEMINI_API_KEY}`, {
+                method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({contents:[{parts:[{text:prompt}]}]})
+            });
+            const data = await res.json();
+            return data?.candidates?.[0]?.content?.parts?.[0]?.text || "No content returned from AI.";
+        }catch(e){console.error(e); return "Gemini API call failed."; }
+    }
+
+    // Mock Data
+    const getMockOceanNews = ()=>new Promise(resolve=>setTimeout(()=>resolve({articles:[
+        {title:"New Deep-Sea Coral Reef Discovered",description:"Scientists found a deep-sea coral reef full of marine life.",url:"#",image:"https://placehold.co/600x400/3B82F6/FFFFFF?text=Deep+Sea+Reef",source:{name:"Oceanographic Journal"}},
+        {title:"Ocean Warming Alarm",description:"Ocean temperatures rising fast this year.",url:"#",image:"https://placehold.co/600x400/EF4444/FFFFFF?text=Ocean+Warming",source:{name:"Climate Report"}},
+        {title:"Whale Population Rebounds",description:"Protected marine area leads to humpback whale recovery.",url:"#",image:"https://placehold.co/600x400/10B981/FFFFFF?text=Whale+Rebound",source:{name:"Marine Biology Today"}}
+    ]}),500));
+    const getMockArgoNews = ()=>new Promise(resolve=>setTimeout(()=>resolve({articles:[
+        {title:"Argo Floats >4000",description:"Over 4000 robotic floats monitoring oceans.",url:"#",image:"https://placehold.co/600x400/14B8A6/FFFFFF?text=4000+Floats",source:{name:"Argo HQ"}},
+        {title:"Argo New Sensors",description:"New floats with oxygen, nitrate, pH sensors.",url:"#",image:"https://placehold.co/600x400/8B5CF6/FFFFFF?text=New+Sensors",source:{name:"Ocean Tech Monthly"}}
+    ]}),500));
+
+    // News Fetching
+    async function fetchNews(fetchFunc, containerId, errorId, skeletons=3){
+        const container = document.getElementById(containerId);
+        const errorContainer = document.getElementById(errorId);
+        container.innerHTML='<div class="animate-pulse">Loading...</div>';
+        errorContainer.classList.add('hidden');
+        try{
+            const data = await fetchFunc();
+            if(data.articles.length>0){
+                allArticles.push(...data.articles);
+                container.innerHTML=data.articles.map(a=>`
+                    <div class="news-card bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-md flex flex-col">
+                        <a href="${a.url}" target="_blank"><img src="${a.image}" class="w-full h-48 object-cover" onerror="this.src='https://placehold.co/600x400/94A3B8/FFFFFF?text=Image+Error';"></a>
+                        <div class="p-6 flex flex-col flex-grow">
+                            <span class="text-sm font-semibold text-blue-500 dark:text-blue-400">${a.source.name}</span>
+                            <h3 class="mt-2 mb-2 text-xl font-bold text-gray-900 dark:text-white">${a.title}</h3>
+                            <p class="text-gray-600 dark:text-gray-400 text-base flex-grow">${a.description}</p>
+                            <div class="mt-4 pt-4 border-t dark:border-gray-700 flex justify-between items-center">
+                                <a href="${a.url}" target="_blank" class="text-blue-600 dark:text-blue-400 font-semibold hover:underline">Read More &rarr;</a>
+                                <button class="explain-btn bg-purple-100 dark:bg-purple-900/50 text-purple-700 dark:text-purple-300 text-sm font-semibold px-3 py-1 rounded-full" data-title="${a.title}" data-description="${a.description}">✨ Explain</button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            } else {
+                container.innerHTML=''; errorContainer.textContent='No news found.'; errorContainer.classList.remove('hidden');
+            }
+        } catch(e){ console.error(e); container.innerHTML=''; errorContainer.textContent='Failed to load news.'; errorContainer.classList.remove('hidden'); }
+    }
+
+    summarizeBtn.addEventListener('click', async ()=>{
+        if(allArticles.length===0) return;
+        showModal("✨ Summarizing Today's News...");
+        const titles = allArticles.map(a=>a.title).join('\n');
+        const summary = await callGeminiAPI(`Summarize these ocean news headlines: ${titles}`);
+        showModal("✨ Today's News Summary", `<p class="text-lg leading-relaxed">${summary.replace(/\n/g,'<br>')}</p>`);
+    });
+
+    document.querySelector('main').addEventListener('click', async e=>{
+        const btn = e.target.closest('.explain-btn');
+        if(btn){
+            const title=btn.dataset.title, description=btn.dataset.description;
+            showModal(`✨ Explaining "${title}"`);
+            const explanation = await callGeminiAPI(`Explain like I'm 10 years old:\nTitle:${title}\nDesc:${description}`);
+            showModal(`✨ Explaining "${title}"`, `<p class="text-lg leading-relaxed">${explanation.replace(/\n/g,'<br>')}</p>`);
+        }
+    });
+
+    // Initial Load
+    Promise.all([
+        fetchNews(()=>GNEWS_API_KEY==="YOUR_GNEWS_API_KEY"?getMockOceanNews():fetch(`https://gnews.io/api/v4/search?q=ocean&lang=en&max=6&token=${GNEWS_API_KEY}`).then(r=>r.json()),'ocean-news-container','ocean-news-error'),
+        fetchNews(()=>GNEWS_API_KEY==="YOUR_GNEWS_API_KEY"?getMockArgoNews():fetch(`https://gnews.io/api/v4/search?q=argo+floats&lang=en&max=3&token=${GNEWS_API_KEY}`).then(r=>r.json()),'argo-news-container','argo-news-error')
+    ]).then(()=>{ summarizeBtn.disabled = allArticles.length===0; });
+});
+</script>
+</body>
+</html>

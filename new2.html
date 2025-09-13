@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Argo Floats - Ocean Climate Monitoring Network</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        .ocean-gradient {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 25%, #475569 50%, #64748b 75%, #94a3b8 100%);
+        }
+        
+        .professional-gradient {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+        }
+        
+        .accent-gradient {
+            background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 50%, #0891b2 100%);
+        }
+        
+        .float-animation {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .wave {
+            animation: wave 3s ease-in-out infinite;
+        }
+        
+        @keyframes wave {
+            0%, 100% { transform: translateX(0px); }
+            50% { transform: translateX(10px); }
+        }
+        
+        .data-pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+            }
+
+            70% {
+                transform: scale(1);
+                box-shadow: 0 0 0 10px rgba(34, 197, 94, 0);
+            }
+
+            100% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
+            }
+        }
+        
+        .counter {
+            font-variant-numeric: tabular-nums;
+        }
+        
+        .glass-effect {
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Carousel Styles */
+        .carousel-slide {
+            display: none;
+        }
+        .carousel-slide.active {
+            display: block;
+        }
+        .carousel-dot {
+            transition: background-color 0.3s ease;
+        }
+
+        /* FAQ Accordion Styles */
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-in-out, padding 0.3s ease-in-out;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+        .faq-item.open .faq-answer {
+            max-height: 200px; /* Adjust as needed */
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+        .faq-item .faq-arrow {
+            transition: transform 0.3s ease-in-out;
+        }
+        .faq-item.open .faq-arrow {
+            transform: rotate(180deg);
+        }
+
+        /* Light Theme Styles */
+        body.light {
+            background-color: #f8fafc; /* slate-50 */
+            color: #0f172a; /* slate-900 */
+        }
+        body.light .glass-effect {
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(226, 232, 240, 1); /* slate-200 */
+        }
+        body.light .bg-slate-900 {
+            background-color: #f1f5f9; /* slate-100 */
+        }
+        body.light .bg-slate-800\/50 {
+            background-color: rgba(226, 232, 240, 0.5); /* slate-200/50 */
+        }
+        body.light .bg-slate-800\/30 {
+             background-color: rgba(241, 245, 249, 1); /* slate-100 */
+        }
+        body.light .bg-slate-950 {
+            background-color: #e2e8f0; /* slate-200 */
+        }
+        body.light .border-slate-700\/50 {
+            border-color: rgba(203, 213, 225, 0.5); /* slate-300/50 */
+        }
+        body.light .border-slate-800 {
+            border-color: #cbd5e1; /* slate-300 */
+        }
+        body.light .text-slate-100 {
+            color: #1e293b; /* slate-800 */
+        }
+        body.light .text-slate-300 {
+            color: #475569; /* slate-600 */
+        }
+        body.light .text-slate-400 {
+            color: #64748b; /* slate-500 */
+        }
+        body.light .professional-gradient {
+            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+        }
+        body.light .card-hover:hover {
+             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        body.light #climate-query, body.light #weather-query, body.light #research-query, body.light #suggestion-box {
+            background-color: #e2e8f0;
+            border-color: #cbd5e1;
+            color: #1e293b;
+        }
+        body.light #climate-query::placeholder, body.light #weather-query::placeholder, body.light #research-query::placeholder, body.light #suggestion-box::placeholder {
+            color: #94a3b8;
+        }
+        body.light .from-cyan-900\/20 {
+             --tw-gradient-from: rgba(207, 250, 254, 0.2);
+        }
+         body.light .to-blue-900\/20 {
+            --tw-gradient-to: rgba(219, 234, 254, 0.2);
+        }
+        body.light .faq-question {
+             background-color: #f1f5f9;
+        }
+         body.light .faq-answer {
+             background-color: #f8fafc;
+         }
+         body.light .advanced-ocean-heading {
+            color: #0891b2; /* cyan-700 */
+         }
+    </style>
+</head>
+<body class="bg-slate-900">
+    <!-- Navigation -->
+    <nav class="glass-effect border-b border-slate-700/50 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 accent-gradient rounded-full flex items-center justify-center shadow-lg">
+                        <span class="text-white font-bold text-lg">A</span>
+                    </div>
+                    <span class="text-xl font-semibold text-slate-100">Argo Floats</span>
+                </div>
+
+                <!-- Desktop Nav Links -->
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="#home" class="text-slate-300 hover:text-cyan-400 transition-colors font-medium">Home</a>
+                    <a href="#impact" class="text-slate-300 hover:text-cyan-400 transition-colors font-medium">Features</a>
+                    <a href="#about" class="text-slate-300 hover:text-cyan-400 transition-colors font-medium">About</a>
+                    <a href="#facts" class="text-slate-300 hover:text-cyan-400 transition-colors font-medium">Facts</a>
+                    <a href="#suggestions" class="text-slate-300 hover:text-cyan-400 transition-colors font-medium">Suggestions</a>
+                    <a href="#faq" class="text-slate-300 hover:text-cyan-400 transition-colors font-medium">FAQs</a>
+                    
+                    <!-- Theme Toggle Button -->
+                    <button id="theme-toggle" class="text-slate-300 hover:text-cyan-400">
+                        <!-- Icon will be inserted by JS -->
+                    </button>
+                </div>
+                
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                     <button id="theme-toggle-mobile" class="text-slate-300 hover:text-cyan-400 mr-4">
+                        <!-- Icon will be inserted by JS -->
+                    </button>
+                    <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-slate-400 hover:text-white hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+                        <span class="sr-only">Open main menu</span>
+                        <!-- Hamburger Icon -->
+                        <svg class="h-6 w-6 block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                        <!-- Close Icon (hidden by default) -->
+                         <svg class="h-6 w-6 hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu, show/hide based on menu state. -->
+        <div class="md:hidden hidden" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#home" class="text-slate-300 hover:bg-slate-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Home</a>
+                <a href="#impact" class="text-slate-300 hover:bg-slate-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Features</a>
+                <a href="#about" class="text-slate-300 hover:bg-slate-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">About</a>
+                <a href="#facts" class="text-slate-300 hover:bg-slate-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Facts</a>
+                <a href="#suggestions" class="text-slate-300 hover:bg-slate-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Suggestions</a>
+                <a href="#faq" class="text-slate-300 hover:bg-slate-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">FAQs</a>
+            </div>
+        </div>
+    </nav>
+    <!-- Hero Section -->
+    <section id="home" class="professional-gradient text-white py-24 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-br from-cyan-900/20 to-blue-900/20"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center">
+                <h1 class="text-6xl font-bold mb-6 leading-tight">
+                    <span class="advanced-ocean-heading">Advanced Ocean</span>
+                    <span class="bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">Climate Monitoring</span>
+                </h1>
+                <p class="text-xl text-slate-300 mb-6 leading-relaxed font-light max-w-4xl mx-auto">
+                    The Argo Global Ocean Observing System operates a network of autonomous profiling floats, 
+                    delivering critical oceanographic data for climate research and operational forecasting.
+                </p>
+                <p class="text-lg text-slate-300 mb-8 leading-relaxed font-light max-w-3xl mx-auto">
+                    We empower everyone from scientists to fishermen to access data through easy summaries, graphs, profiles, or raw data.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button onclick="alert('Chatbot feature coming soon!')" class="accent-gradient text-white px-8 py-4 rounded-lg font-semibold hover:shadow-xl hover:scale-105 transition-all duration-300">
+                        Ask Chatbot
+                    </button>
+                    <button onclick="scrollToSection('impact')" class="border-2 border-slate-400 text-slate-300 px-8 py-4 rounded-lg font-semibold hover:bg-slate-700 hover:border-cyan-400 hover:text-cyan-400 transition-all duration-300">
+                        View Features
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Stats Section -->
+    <section class="bg-slate-800/50 py-20 border-y border-slate-700/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="text-center group">
+                    <div class="text-5xl font-bold text-cyan-400 counter mb-2" id="activeFloats">3,800</div>
+                    <div class="text-slate-300 font-medium">Active Floats</div>
+                    <div class="w-12 h-1 bg-gradient-to-r from-cyan-400 to-blue-400 mx-auto mt-3 rounded-full"></div>
+                </div>
+                <div class="text-center group">
+                    <div class="text-5xl font-bold text-emerald-400 counter mb-2" id="profiles">2.5M</div>
+                    <div class="text-slate-300 font-medium">Ocean Profiles</div>
+                    <div class="w-12 h-1 bg-gradient-to-r from-emerald-400 to-green-400 mx-auto mt-3 rounded-full"></div>
+                </div>
+                <div class="text-center group">
+                    <div class="text-5xl font-bold text-purple-400 counter mb-2" id="countries">30+</div>
+                    <div class="text-slate-300 font-medium">Countries</div>
+                    <div class="w-12 h-1 bg-gradient-to-r from-purple-400 to-violet-400 mx-auto mt-3 rounded-full"></div>
+                </div>
+                <div class="text-center group">
+                    <div class="text-5xl font-bold text-amber-400 counter mb-2" id="years">20+</div>
+                    <div class="text-slate-300 font-medium">Years Operating</div>
+                    <div class="w-12 h-1 bg-gradient-to-r from-amber-400 to-orange-400 mx-auto mt-3 rounded-full"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Network Section -->
+    <section id="network" class="py-24 bg-slate-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-20">
+                <h2 class="text-5xl font-bold text-slate-100 mb-6">Global Ocean Coverage</h2>
+                <p class="text-xl text-slate-400 max-w-3xl mx-auto font-light leading-relaxed">
+                    The Argo network provides unprecedented global coverage of the upper ocean. The map below visualizes the distribution of floats across all major basins, each one a vital data point in our global monitoring system.
+                </p>
+            </div>
+            
+            <div class="glass-effect p-10 rounded-3xl">
+                <div class="grid lg:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <h3 class="text-3xl font-semibold text-slate-100 mb-8">Operational Monitoring Capabilities</h3>
+                        <div class="space-y-6">
+                            <div class="flex items-center space-x-4">
+                                <div class="w-4 h-4 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full shadow-lg"></div>
+                                <span class="text-slate-300 text-lg">High-resolution temperature profiling: surface to 2000m depth</span>
+                            </div>
+                            <div class="flex items-center space-x-4">
+                                <div class="w-4 h-4 bg-gradient-to-r from-emerald-400 to-green-500 rounded-full shadow-lg"></div>
+                                <span class="text-slate-300 text-lg">Precision salinity measurements for circulation analysis</span>
+                            </div>
+                            <div class="flex items-center space-x-4">
+                                <div class="w-4 h-4 bg-gradient-to-r from-purple-400 to-violet-500 rounded-full shadow-lg"></div>
+                                <span class="text-slate-300 text-lg">Calibrated pressure sensors for geopotential calculations</span>
+                            </div>
+                            <div class="flex items-center space-x-4">
+                                <div class="w-4 h-4 bg-gradient-to-r from-amber-400 to-orange-500 rounded-full shadow-lg"></div>
+                                <span class="text-slate-300 text-lg">Advanced biogeochemical sensor integration</span>
+                            </div>
+                        </div>
+                        <button onclick="showNetworkDetails()" class="mt-10 accent-gradient text-white px-8 py-4 rounded-xl font-semibold hover:shadow-xl hover:scale-105 transition-all duration-300">
+                            View Network Status
+                        </button>
+                    </div>
+                    <div class="relative">
+                        <!-- World Map Background Image -->
+                        <img src="https://i.imgur.com/JV09v62.png" alt="World Map" class="w-full h-auto object-cover rounded-2xl border border-slate-600/50 shadow-2xl">
+                        
+                        <!-- Float locations overlay -->
+                        <div class="absolute inset-0">
+                            <div class="absolute w-3 h-3 bg-emerald-400 rounded-full data-pulse" style="left: 25%; top: 40%;"></div>
+                            <div class="absolute w-3 h-3 bg-emerald-400 rounded-full data-pulse" style="left: 65%; top: 35%;"></div>
+                            <div class="absolute w-3 h-3 bg-emerald-400 rounded-full data-pulse" style="left: 82.5%; top: 50%;"></div>
+                            <div class="absolute w-3 h-3 bg-emerald-400 rounded-full data-pulse" style="left: 37.5%; top: 60%;"></div>
+                            <div class="absolute w-3 h-3 bg-emerald-400 rounded-full data-pulse" style="left: 70%; top: 70%;"></div>
+                            <div class="absolute w-3 h-3 bg-emerald-400 rounded-full data-pulse" style="left: 17.5%; top: 80%;"></div>
+                            <div class="absolute w-3 h-3 bg-emerald-400 rounded-full data-pulse" style="left: 40%; top: 45%;"></div>
+                            <div class="absolute w-3 h-3 bg-emerald-400 rounded-full data-pulse" style="left: 90%; top: 55%;"></div>
+                        </div>
+
+                        <div class="absolute bottom-4 right-4 glass-effect px-4 py-2 rounded-xl">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-3 h-3 bg-emerald-400 rounded-full shadow-lg"></div>
+                                <span class="text-sm text-slate-300 font-medium">Active Floats</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Impact Section -->
+    <section id="impact" class="py-24 bg-slate-800/30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-20">
+                <h2 class="text-5xl font-bold text-slate-100 mb-6">Our Features</h2>
+                <p class="text-xl text-slate-400 max-w-3xl mx-auto font-light leading-relaxed">
+                    Explore the key features of the Argo program, providing essential tools for climate research, weather prediction, and understanding our oceans.
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-10">
+                <div class="text-center glass-effect p-8 rounded-2xl card-hover flex flex-col">
+                    <div class="w-24 h-24 bg-gradient-to-br from-red-500 to-orange-600 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-2xl flex-shrink-0">
+                        <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </div>
+                    <div class="flex-grow">
+                        <h3 class="text-2xl font-semibold text-slate-100 mb-6">Climate Monitoring</h3>
+                        <p class="text-slate-400 leading-relaxed">
+                            Essential data for tracking global warming, sea level rise, and ocean heat content changes.
+                        </p>
+                    </div>
+                    <div class="mt-6">
+                        <label for="climate-query" class="sr-only">Query Climate Data</label>
+                        <div class="relative rounded-md shadow-sm">
+                            <input type="text" name="climate-query" id="climate-query" class="block w-full bg-slate-700/50 border-slate-600 rounded-md py-2 pl-3 pr-20 text-slate-300 placeholder-slate-400 focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 sm:text-sm" placeholder="e.g., Ocean heat trend 2023">
+                            <div class="absolute inset-y-0 right-0 flex items-center">
+                                <button onclick="handleAiQuery('climate-query')" class="bg-cyan-600 hover:bg-cyan-700 text-white font-semibold py-1 px-3 rounded-r-md h-full flex items-center space-x-2">
+                                    <span>✨</span> <span>Query</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center glass-effect p-8 rounded-2xl card-hover flex flex-col">
+                    <div class="w-24 h-24 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-2xl flex-shrink-0">
+                         <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"></path></svg>
+                    </div>
+                    <div class="flex-grow">
+                        <h3 class="text-2xl font-semibold text-slate-100 mb-6">Weather Forecasting</h3>
+                        <p class="text-slate-400 leading-relaxed">
+                            Improves seasonal to decadal weather predictions and hurricane intensity forecasts.
+                        </p>
+                    </div>
+                     <div class="mt-6">
+                        <label for="weather-query" class="sr-only">Query Weather Data</label>
+                        <div class="relative rounded-md shadow-sm">
+                            <input type="text" name="weather-query" id="weather-query" class="block w-full bg-slate-700/50 border-slate-600 rounded-md py-2 pl-3 pr-20 text-slate-300 placeholder-slate-400 focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 sm:text-sm" placeholder="e.g., Hurricane intensity data">
+                            <div class="absolute inset-y-0 right-0 flex items-center">
+                                <button onclick="handleAiQuery('weather-query')" class="bg-cyan-600 hover:bg-cyan-700 text-white font-semibold py-1 px-3 rounded-r-md h-full flex items-center space-x-2">
+                                   <span>✨</span> <span>Query</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center glass-effect p-8 rounded-2xl card-hover flex flex-col">
+                    <div class="w-24 h-24 bg-gradient-to-br from-emerald-500 to-green-600 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-2xl flex-shrink-0">
+                        <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3h3m-3 3h3m-3 3h3m-3 3h3"></path></svg>
+                    </div>
+                    <div class="flex-grow">
+                        <h3 class="text-2xl font-semibold text-slate-100 mb-6">Ocean Research</h3>
+                        <p class="text-slate-400 leading-relaxed">
+                            Enables studies of ocean circulation, marine ecosystems, and biogeochemical cycles.
+                        </p>
+                    </div>
+                     <div class="mt-6">
+                        <label for="research-query" class="sr-only">Query Research Data</label>
+                        <div class="relative rounded-md shadow-sm">
+                            <input type="text" name="research-query" id="research-query" class="block w-full bg-slate-700/50 border-slate-600 rounded-md py-2 pl-3 pr-20 text-slate-300 placeholder-slate-400 focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 sm:text-sm" placeholder="e.g., Atlantic circulation">
+                            <div class="absolute inset-y-0 right-0 flex items-center">
+                                <button onclick="handleAiQuery('research-query')" class="bg-cyan-600 hover:bg-cyan-700 text-white font-semibold py-1 px-3 rounded-r-md h-full flex items-center space-x-2">
+                                    <span>✨</span> <span>Query</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- About Section -->
+    <section id="about" class="py-24 bg-slate-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-20">
+                <h2 class="text-5xl font-bold text-slate-100 mb-6">How Argo Floats Work</h2>
+                <p class="text-xl text-slate-400 max-w-3xl mx-auto font-light leading-relaxed">
+                    Precision-engineered autonomous profiling systems that execute systematic ocean measurements and satellite data transmission protocols.
+                </p>
+            </div>
+            
+            <div class="grid lg:grid-cols-3 gap-8">
+                <div class="glass-effect p-8 rounded-2xl card-hover">
+                    <div class="w-16 h-16 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                    </div>
+                    <h3 class="text-2xl font-semibold text-slate-100 mb-4">Deployment & Positioning</h3>
+                    <p class="text-slate-400 leading-relaxed">
+                        Profiling floats are strategically deployed from research vessels and maintain operational positioning at designated parking depths of 1000-1500 meters during 10-day drift cycles.
+                    </p>
+                </div>
+                
+                <div class="glass-effect p-8 rounded-2xl card-hover">
+                    <div class="w-16 h-16 bg-gradient-to-br from-emerald-500 to-green-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V7a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    </div>
+                    <h3 class="text-2xl font-semibold text-slate-100 mb-4">Profiling & Data Collection</h3>
+                    <p class="text-slate-400 leading-relaxed">
+                        Following programmed cycles, floats execute controlled descents to 2000-meter depths. They then perform precision ascent profiles, creating detailed temperature and salinity profiles while continuously measuring pressure.
+                    </p>
+                </div>
+                
+                <div class="glass-effect p-8 rounded-2xl card-hover">
+                    <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-violet-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg">
+                       <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>
+                    </div>
+                    <h3 class="text-2xl font-semibold text-slate-100 mb-4">Data Transmission & Control</h3>
+                    <p class="text-slate-400 leading-relaxed">
+                        Upon surfacing, floats transmit complex data profiles, often packaged in scientific formats like NetCDF, via satellite. They also receive new mission parameters before starting the next 10-day cycle.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Fascinating Ocean Facts Section -->
+    <section id="facts" class="py-24 bg-slate-800/30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-20">
+                <h2 class="text-5xl font-bold text-slate-100 mb-6">Fascinating Ocean Facts</h2>
+                <p class="text-xl text-slate-400 max-w-3xl mx-auto font-light leading-relaxed">
+                    Dive into the mysteries of the deep with these incredible facts about our planet's oceans.
+                </p>
+            </div>
+
+            <div id="facts-carousel" class="relative max-w-4xl mx-auto">
+                <!-- Carousel Slides -->
+                <div class="relative h-80"> <!-- Fixed height container -->
+                    <a href="#" target="_blank" class="carousel-slide active glass-effect rounded-2xl p-8 md:p-12 flex flex-col justify-center items-center text-center absolute inset-0 card-hover">
+                        <h3 class="text-3xl font-bold text-cyan-300 mb-4">Why Don't the Atlantic & Pacific Oceans Mix?</h3>
+                        <p class="text-slate-300 text-lg leading-relaxed">It's a viral myth! They do mix. However, a visible line often appears where they meet due to differences in water density, temperature, and salinity. The fresher, lighter meltwater from glaciers in the Gulf of Alaska takes time to blend with the saltier, denser water of the North Pacific, creating a temporary, stunning visual boundary.</p>
+                    </a>
+                    <a href="#" target="_blank" class="carousel-slide glass-effect rounded-2xl p-8 md:p-12 flex flex-col justify-center items-center text-center absolute inset-0 card-hover">
+                        <h3 class="text-3xl font-bold text-emerald-300 mb-4">The World's Largest Waterfall is Underwater</h3>
+                        <p class="text-slate-300 text-lg leading-relaxed">Forget Angel Falls. The Denmark Strait Cataract, located between Greenland and Iceland, is the mightiest waterfall on Earth. Cold, dense water from the Nordic Seas plunges over 11,500 feet (3,500 meters) beneath the warmer, lighter water of the Irminger Sea, carrying over 175 million cubic feet of water per second—dwarfing any land-based waterfall.</p>
+                    </a>
+                    <a href="#" target="_blank" class="carousel-slide glass-effect rounded-2xl p-8 md:p-12 flex flex-col justify-center items-center text-center absolute inset-0 card-hover">
+                        <h3 class="text-3xl font-bold text-amber-300 mb-4">Earth's Longest Mountain Range is in the Ocean</h3>
+                        <p class="text-slate-300 text-lg leading-relaxed">The Mid-Ocean Ridge is a continuous underwater mountain chain that wraps around the globe for 40,389 miles (65,000 km), like the seam on a baseball. This massive geological feature is where new oceanic crust is formed through volcanic activity, playing a crucial role in plate tectonics and shaping the ocean floor.</p>
+                    </a>
+                </div>
+
+                <!-- Carousel Controls -->
+                <button id="prev-slide" class="absolute top-1/2 left-0 md:-left-16 transform -translate-y-1/2 bg-slate-700/50 hover:bg-slate-600/50 text-white p-3 rounded-full transition">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                </button>
+                <button id="next-slide" class="absolute top-1/2 right-0 md:-right-16 transform -translate-y-1/2 bg-slate-700/50 hover:bg-slate-600/50 text-white p-3 rounded-full transition">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                </button>
+
+                <!-- Dots -->
+                <div id="carousel-dots" class="flex justify-center space-x-3 mt-8"></div>
+            </div>
+        </div>
+    </section>
+    <!-- Suggestions Section -->
+    <section id="suggestions" class="py-24 bg-slate-900">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl font-bold text-slate-100 mb-6">Suggestions & Reviews</h2>
+                <p class="text-xl text-slate-400 max-w-3xl mx-auto font-light leading-relaxed">
+                    Have an idea for a new feature or want to leave a review? We'd love to hear from you! Your feedback helps us improve.
+                </p>
+            </div>
+            <div class="glass-effect p-8 rounded-2xl max-w-2xl mx-auto">
+                <textarea id="suggestion-box" rows="2" class="w-full bg-slate-800/50 border-2 border-slate-700 rounded-lg p-4 text-slate-300 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition placeholder:text-sm" placeholder="Enter your suggestion or review here..."></textarea>
+                <button onclick="submitSuggestion()" class="mt-6 w-full accent-gradient text-white py-3 rounded-lg font-semibold hover:shadow-xl hover:scale-105 transition-all duration-300">
+                    Submit Feedback
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQs Section -->
+    <section id="faq" class="py-24 bg-slate-800/30">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl font-bold text-slate-100 mb-6">Frequently Asked Questions</h2>
+                <p class="text-xl text-slate-400 max-w-3xl mx-auto font-light leading-relaxed">
+                    Find answers to common questions about the Argo program, its data, and technology.
+                </p>
+            </div>
+            <div id="faq-container" class="space-y-4">
+                <!-- FAQ Item 1 -->
+                <div class="faq-item glass-effect rounded-xl overflow-hidden">
+                    <button class="faq-question w-full flex justify-between items-center text-left text-lg font-semibold p-6 text-slate-100">
+                        <span>What is an Argo float?</span>
+                        <svg class="faq-arrow w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="faq-answer px-6 text-slate-300">
+                        An Argo float is a small, autonomous robotic probe that drifts with ocean currents and moves up and down between the surface and a mid-water depth. It collects data on temperature, salinity, and pressure, which it then transmits to satellites when it surfaces.
+                    </div>
+                </div>
+                <!-- FAQ Item 2 -->
+                <div class="faq-item glass-effect rounded-xl overflow-hidden">
+                    <button class="faq-question w-full flex justify-between items-center text-left text-lg font-semibold p-6 text-slate-100">
+                        <span>How is Argo data used?</span>
+                        <svg class="faq-arrow w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="faq-answer px-6 text-slate-300">
+                        The data is used by scientists and operational centers around the world for climate and ocean research, weather forecasting, and fisheries management. It provides a crucial, real-time look at the state of the upper ocean, helping us understand climate change, sea-level rise, and major weather events like hurricanes.
+                    </div>
+                </div>
+                 <!-- FAQ Item 3 -->
+                <div class="faq-item glass-effect rounded-xl overflow-hidden">
+                    <button class="faq-question w-full flex justify-between items-center text-left text-lg font-semibold p-6 text-slate-100">
+                        <span>Is the data free to use?</span>
+                        <svg class="faq-arrow w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="faq-answer px-6 text-slate-300">
+                        Yes, all Argo data is publicly available and free of charge. The data policy is committed to open and unrestricted access for all users, typically within 24 hours of collection, to support research and operational applications globally.
+                    </div>
+                </div>
+                 <!-- FAQ Item 4 -->
+                <div class="faq-item glass-effect rounded-xl overflow-hidden">
+                    <button class="faq-question w-full flex justify-between items-center text-left text-lg font-semibold p-6 text-slate-100">
+                        <span>Is this data only for scientists?</span>
+                        <svg class="faq-arrow w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="faq-answer px-6 text-slate-300">
+                        Not at all. While scientists are a primary audience, our goal is to make ocean data accessible to everyone, including students, fishermen, and the curious public. You can get simple answers from our chatbot, view trends on dashboards, or download the raw data for your own projects.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Footer -->
+    <footer class="bg-slate-950/70 text-slate-400 py-8 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+             <div class="flex justify-center items-center space-x-3 mb-4">
+                <div class="w-8 h-8 accent-gradient rounded-full flex items-center justify-center shadow-lg">
+                    <span class="text-white font-bold text-md">A</span>
+                </div>
+                <span class="text-lg font-semibold text-slate-200">Argo Floats</span>
+            </div>
+            <p class="text-sm">&copy; 2025 Argo Program. Data freely available for research and operational use.</p>
+            <p class="text-xs mt-2">A global ocean observing system providing real-time data for climate and weather research.</p>
+        </div>
+    </footer>
+    
+    <!-- Modal Placeholder -->
+    <div id="modal" class="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm flex justify-center items-center hidden z-50">
+        <div class="glass-effect text-white p-8 rounded-2xl max-w-lg w-full mx-4 shadow-2xl border border-slate-700">
+            <h3 id="modal-title" class="text-2xl font-bold mb-4 text-slate-100"></h3>
+            <div id="modal-content" class="text-slate-300 space-y-2 max-h-[60vh] overflow-y-auto"></div>
+            <button onclick="closeModal()" class="mt-6 w-full accent-gradient text-white py-3 rounded-lg font-semibold hover:shadow-xl hover:scale-105 transition-all duration-300">
+                Close
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // --- Modal ---
+        const modal = document.getElementById('modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalContent = document.getElementById('modal-content');
+
+        function showModal(title, content) {
+            modalTitle.textContent = title;
+            modalContent.innerHTML = content;
+            modal.classList.remove('hidden');
+        }
+
+        function closeModal() {
+            modal.classList.add('hidden');
+        }
+        
+        function showLoadingModal(title) {
+            const content = `
+                <div class="flex justify-center items-center py-8">
+                    <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-cyan-400"></div>
+                    <p class="ml-4 text-slate-300">Generating response...</p>
+                </div>
+            `;
+            showModal(title, content);
+        }
+
+        // --- Navigation & Page Scroll ---
+        function scrollToSection(sectionId) {
+            document.getElementById(sectionId).scrollIntoView({ 
+                behavior: 'smooth' 
+            });
+        }
+        
+        // --- UI Popups (non-AI) ---
+        function showNetworkDetails() {
+            const title = 'Network Status';
+            const content = `
+                <p>✅ 3,847 active floats worldwide</p>
+                <p>🌊 All major ocean basins covered</p>
+                <p>📡 Real-time data transmission</p>
+                <p>🔄 ~150 new profiles daily</p>
+                <p class="mt-4">Data is freely available through Global Data Assembly Centers (GDACs).</p>
+            `;
+            showModal(title, content);
+        }
+        
+        function submitSuggestion() {
+            const suggestionBox = document.getElementById('suggestion-box');
+            if(suggestionBox.value.trim() === "") {
+                showModal("Empty Feedback", "<p>Please write your suggestion or review before submitting.</p>");
+                return;
+            }
+            showModal("Feedback Submitted", "<p>Thank you! Your feedback has been received and will help us improve.</p>");
+            suggestionBox.value = "";
+        }
+
+        // --- Gemini API Integration ---
+        const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=`;
+
+        async function callGemini(userQuery, systemPrompt, useGrounding = false, retries = 3, delay = 1000) {
+            const payload = {
+                contents: [{ parts: [{ text: userQuery }] }],
+                systemInstruction: {
+                    parts: [{ text: systemPrompt }]
+                },
+            };
+
+            if (useGrounding) {
+                payload.tools = [{ "google_search": {} }];
+            }
+
+            try {
+                const response = await fetch(GEMINI_API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    if (response.status === 429 && retries > 0) {
+                        console.warn(`Throttled. Retrying in ${delay / 1000}s...`);
+                        await new Promise(resolve => setTimeout(resolve, delay));
+                        return callGemini(userQuery, systemPrompt, useGrounding, retries - 1, delay * 2);
+                    }
+                    throw new Error(`API call failed: ${response.status}`);
+                }
+
+                const result = await response.json();
+                const candidate = result.candidates?.[0];
+
+                if (candidate && candidate.content?.parts?.[0]?.text) {
+                    return candidate.content.parts[0].text;
+                } else {
+                    console.error("Invalid API response:", result);
+                    return "Sorry, the AI returned an unexpected response.";
+                }
+            } catch (error) {
+                console.error("Gemini API Error:", error);
+                if (retries > 0) {
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                    return callGemini(userQuery, systemPrompt, useGrounding, retries - 1, delay * 2);
+                }
+                return "An error occurred while contacting the AI. Please check the console for details.";
+            }
+        }
+        
+        async function handleAiQuery(inputId) {
+            const inputElement = document.getElementById(inputId);
+            const userQuery = inputElement.value.trim();
+
+            if (!userQuery) {
+                showModal("Invalid Query", "<p>Please enter a topic or question to query.</p>");
+                return;
+            }
+            
+            showLoadingModal("✨ AI Data Explainer");
+
+            const systemPrompt = "You are an expert oceanographer and data scientist specializing in the Argo float program. When a user provides a research query, explain in a clear, accessible, and concise manner (2-3 paragraphs) what the query means, what kind of Argo data (e.g., temperature profiles, salinity data over time) would be used to answer it, and what the potential implications of the findings could be for understanding our climate and oceans. Do not attempt to answer the query with specific data, but rather explain the process and significance of the research. Format your response using paragraphs.";
+
+            const responseText = await callGemini(userQuery, systemPrompt, true);
+            
+            const formattedResponse = responseText.split('\n').filter(p => p.trim() !== '').map(p => `<p class="mb-4">${p}</p>`).join('');
+
+            showModal("✨ AI Data Explainer", formattedResponse);
+        }
+
+        async function getAiOceanFact() {
+            showLoadingModal("✨ Ocean Fact Generator");
+            
+            const systemPrompt = "You are a marine biologist and science communicator. Generate a single, fascinating, and surprising fun fact about the Earth's oceans. The fact should be easy for a general audience to understand. Make it concise, no more than two or three sentences.";
+            const userPrompt = "Tell me a fun fact about the ocean.";
+            
+            const responseText = await callGemini(userPrompt, systemPrompt);
+            
+            showModal("✨ Did you know?", `<p>${responseText}</p>`);
+        }
+
+        // --- Page Initialization & Animations ---
+        function animateCounters() {
+            const counters = document.querySelectorAll('.counter');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && !entry.target.dataset.animating) {
+                        const counter = entry.target;
+                        counter.dataset.animating = "true";
+                        const targetText = counter.textContent;
+                        const targetNum = parseInt(targetText.replace(/[^\d]/g, ''));
+                        const suffix = targetText.replace(/[\d,.]+/g, '');
+                        let current = 0;
+                        
+                        const increment = () => {
+                            const step = targetNum / 100;
+                            if (current < targetNum) {
+                                current += step;
+                                if (current > targetNum) current = targetNum;
+                                counter.textContent = Math.ceil(current).toLocaleString() + suffix;
+                                requestAnimationFrame(increment);
+                            } else {
+                                counter.textContent = targetNum.toLocaleString() + suffix;
+                            }
+                        };
+                        
+                        increment();
+                        observer.unobserve(counter);
+                    }
+                });
+            }, { threshold: 0.5 });
+            
+            counters.forEach(counter => observer.observe(counter));
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            animateCounters();
+            
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const hamburgerIcon = mobileMenuButton.querySelector('svg.block');
+            const closeIcon = mobileMenuButton.querySelector('svg.hidden');
+
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+                hamburgerIcon.classList.toggle('hidden');
+                hamburgerIcon.classList.toggle('block');
+                closeIcon.classList.toggle('hidden');
+                closeIcon.classList.toggle('block');
+            });
+
+            // Theme toggle logic
+            const themeToggleButtons = document.querySelectorAll('#theme-toggle, #theme-toggle-mobile');
+            const body = document.body;
+    
+            const sunIcon = `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>`;
+            const moonIcon = `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>`;
+
+            const applyTheme = (theme) => {
+                if (theme === 'light') {
+                    body.classList.add('light');
+                    themeToggleButtons.forEach(btn => btn.innerHTML = moonIcon);
+                } else {
+                    body.classList.remove('light');
+                    themeToggleButtons.forEach(btn => btn.innerHTML = sunIcon);
+                }
+            };
+
+            const toggleTheme = () => {
+                const newTheme = body.classList.contains('light') ? 'dark' : 'light';
+                localStorage.setItem('argo-theme', newTheme);
+                applyTheme(newTheme);
+            };
+
+            themeToggleButtons.forEach(btn => {
+                btn.addEventListener('click', toggleTheme);
+            });
+
+            const savedTheme = localStorage.getItem('argo-theme') || 'dark';
+            applyTheme(savedTheme);
+
+            // Facts Carousel Logic
+            const slides = document.querySelectorAll('.carousel-slide');
+            const prevButton = document.getElementById('prev-slide');
+            const nextButton = document.getElementById('next-slide');
+            const dotsContainer = document.getElementById('carousel-dots');
+            let currentSlide = 0;
+
+            function showSlide(index) {
+                slides.forEach((slide, i) => {
+                    slide.classList.toggle('active', i === index);
+                });
+                const dots = dotsContainer.querySelectorAll('.carousel-dot');
+                dots.forEach((dot, i) => {
+                    dot.classList.toggle('bg-cyan-400', i === index);
+                    dot.classList.toggle('bg-slate-600', i !== index);
+                });
+                currentSlide = index;
+            }
+
+            slides.forEach((_, i) => {
+                const dot = document.createElement('button');
+                dot.classList.add('carousel-dot', 'w-3', 'h-3', 'rounded-full');
+                dot.addEventListener('click', () => showSlide(i));
+                dotsContainer.appendChild(dot);
+            });
+
+            prevButton.addEventListener('click', () => {
+                const newIndex = (currentSlide - 1 + slides.length) % slides.length;
+                showSlide(newIndex);
+            });
+
+            nextButton.addEventListener('click', () => {
+                const newIndex = (currentSlide + 1) % slides.length;
+                showSlide(newIndex);
+            });
+
+            showSlide(0); // Initialize first slide
+
+            // FAQ Accordion Logic
+            const faqItems = document.querySelectorAll('.faq-item');
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question');
+                question.addEventListener('click', () => {
+                    // Close other open items
+                    faqItems.forEach(otherItem => {
+                        if (otherItem !== item) {
+                            otherItem.classList.remove('open');
+                        }
+                    });
+                    // Toggle the clicked item
+                    item.classList.toggle('open');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+

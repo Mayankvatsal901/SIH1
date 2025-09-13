@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArgoFloats AI</title>
+    
+    <!-- Third-party Libraries -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-okaidia.css">
+    
+    <!-- Your Custom Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <i class="fa-solid fa-water"></i> Argo AI
+            </div>
+
+            <button class="new-query-btn">
+                <i class="fas fa-plus"></i> New Query
+            </button>
+
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+                 <a href="#" class="nav-link active">
+                    <i class="fa-solid fa-microchip"></i>
+                    <span>AI Analyst</span>
+                </a>
+                 <a href="#" id="settings-btn" class="nav-link">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button id="theme-toggle" class="theme-toggle-btn" title="Toggle theme">
+                    <i id="theme-toggle-dark-icon" class="fas fa-moon"></i>
+                    <i id="theme-toggle-light-icon" class="fas fa-sun"></i>
+                </button>
+                 <div class="promo-card">
+                    <p>Explore Global Datasets</p>
+                    <button class="promo-button">Learn More</button>
+                 </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header id="main-header" class="main-header">
+                <h1>What ocean data will you explore today?</h1>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="content-container">
+                    <div class="prompt-container">
+                        <textarea id="prompt-area" class="prompt-textarea" placeholder="Describe a data query, and I'll find it for you..."></textarea>
+                        <div class="prompt-actions">
+                             <button id="refine-query-btn" class="refine-button">
+                                ✨ Refine Query
+                             </button>
+                             <button id="submit-query-btn" class="submit-button" title="Submit Query"><i class="fas fa-arrow-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI Response Section -->
+                <div id="ai-response-container" class="content-container hidden">
+                    <div class="card">
+                         <div id="loader" class="loader-container">
+                            <div class="loader"></div>
+                            <p>AI is analyzing your query...</p>
+                        </div>
+                        <div id="ai-response-content" class="prose-custom"></div>
+                        <div id="visualization-btn-container"></div>
+                    </div>
+                </div>
+                
+                 <!-- Code Generation Section -->
+                <div id="code-container" class="content-container hidden">
+                    <div class="code-card">
+                        <div class="code-header">
+                             <h3>Generated Python Code</h3>
+                             <button id="copy-code-btn" class="copy-button"><i class="fas fa-copy"></i> Copy</button>
+                        </div>
+                        <pre><code id="code-block" class="language-python"></code></pre>
+                    </div>
+                </div>
+
+                <!-- Discover with AI -->
+                <div class="content-container">
+                    <div class="discover-header">
+                        <h2>Discover with AI</h2>
+                        <button id="generate-ideas-btn" class="generate-ideas-button">
+                            ✨ Generate Ideas
+                        </button>
+                    </div>
+                     <div id="discover-cards-container" class="discover-grid">
+                        <div class="discover-card">
+                            <i class="fas fa-wind discover-icon"></i>
+                            <span class="discover-text">Track Ocean Currents</span>
+                        </div>
+                        <div class="discover-card">
+                            <i class="fas fa-snowflake discover-icon"></i>
+                           <span class="discover-text">Monitor Arctic Ice Melt</span>
+                        </div>
+                        <div class="discover-card">
+                           <i class="fas fa-water discover-icon"></i>
+                           <span class="discover-text">Analyze Sea Level Rise</span>
+                        </div>
+                         <div class="discover-card">
+                           <i class="fas fa-leaf discover-icon"></i>
+                           <span class="discover-text">Study Phytoplankton</span>
+                        </div>
+                     </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h2 class="modal-title">Settings</h2>
+            <div>
+                <label for="api-key-input" class="modal-label">Your Gemini API Key</label>
+                <input type="password" id="api-key-input" class="modal-input" placeholder="Enter your key here">
+                <p class="modal-subtitle">Your key is saved securely in your browser's local storage.</p>
+            </div>
+            <div class="modal-actions">
+                <button id="close-modal-btn" class="modal-button-secondary">Cancel</button>
+                <button id="save-key-btn" class="modal-button-primary">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Your Custom JavaScript -->
+    <script src="app.js"></script>
+</body>
+</html>

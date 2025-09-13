@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Argo Floats - Ocean Climate Monitoring Network</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    body { font-family: 'Inter', sans-serif; }
+    .faq-answer { display: none; }
+    .faq.active .faq-answer { display: block; }
+    .carousel-slide { display: none; }
+    .carousel-slide.active { display: block; }
+  </style>
+</head>
+<body class="bg-slate-900 text-white">
+  <!-- Navbar -->
+  <nav class="flex items-center justify-between px-6 py-4 bg-slate-800">
+    <h1 class="text-xl font-bold">🌊 Argo Floats</h1>
+    <div class="md:hidden">
+      <button id="menu-toggle" class="text-white">☰</button>
+    </div>
+    <ul id="menu" class="hidden md:flex gap-6">
+      <li><a href="#stats" class="hover:text-cyan-400">Stats</a></li>
+      <li><a href="#features" class="hover:text-cyan-400">Features</a></li>
+      <li><a href="#about" class="hover:text-cyan-400">About</a></li>
+      <li><a href="#faq" class="hover:text-cyan-400">FAQ</a></li>
+    </ul>
+    <button id="theme-toggle" class="ml-4 bg-cyan-500 px-3 py-1 rounded-lg">🌙</button>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="text-center py-20 bg-gradient-to-b from-slate-900 to-slate-800">
+    <h2 class="text-4xl font-bold mb-4">Global Ocean Climate Monitoring</h2>
+    <p class="text-slate-300 max-w-2xl mx-auto">
+      Argo is a global array of over 3000 free-drifting profiling floats that measure the temperature and salinity of the upper 2000m of the ocean, providing crucial data for climate science.
+    </p>
+  </section>
+
+  <!-- Stats Section -->
+  <section id="stats" class="py-16 px-6 grid md:grid-cols-3 gap-6 text-center">
+    <div class="bg-slate-800 p-6 rounded-2xl shadow-lg">
+      <h3 class="text-3xl font-bold text-cyan-400">3,000+</h3>
+      <p class="text-slate-300">Active Floats</p>
+    </div>
+    <div class="bg-slate-800 p-6 rounded-2xl shadow-lg">
+      <h3 class="text-3xl font-bold text-cyan-400">100+</h3>
+      <p class="text-slate-300">Countries Involved</p>
+    </div>
+    <div class="bg-slate-800 p-6 rounded-2xl shadow-lg">
+      <h3 class="text-3xl font-bold text-cyan-400">2000m</h3>
+      <p class="text-slate-300">Depth Coverage</p>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="features" class="py-16 px-6">
+    <h2 class="text-3xl font-bold text-center mb-10">Key Features</h2>
+    <div class="grid md:grid-cols-3 gap-8">
+      <div class="bg-slate-800 p-6 rounded-2xl">
+        <h3 class="text-xl font-semibold mb-2">Real-time Data</h3>
+        <p class="text-slate-300">Floats transmit observations via satellite in near real-time.</p>
+      </div>
+      <div class="bg-slate-800 p-6 rounded-2xl">
+        <h3 class="text-xl font-semibold mb-2">Global Coverage</h3>
+        <p class="text-slate-300">Argo spans the world's oceans, from tropics to polar seas.</p>
+      </div>
+      <div class="bg-slate-800 p-6 rounded-2xl">
+        <h3 class="text-xl font-semibold mb-2">Climate Insights</h3>
+        <p class="text-slate-300">Argo data is vital for understanding climate variability and change.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="py-16 px-6 text-center">
+    <h2 class="text-3xl font-bold mb-6">About Argo</h2>
+    <p class="max-w-3xl mx-auto text-slate-300">
+      Argo is an international program that revolutionized oceanography by providing free, high-quality, and globally distributed ocean data. Its floats profile temperature and salinity as they drift with currents, surfacing every 10 days to transmit data.
+    </p>
+  </section>
+
+  <!-- Facts Carousel -->
+  <section class="py-16 px-6 bg-slate-800">
+    <h2 class="text-3xl font-bold text-center mb-8">Did You Know?</h2>
+    <div id="carousel" class="relative max-w-2xl mx-auto">
+      <div class="carousel-slide active p-6 bg-slate-700 rounded-xl">🌍 Argo floats provide over 100,000 profiles each year.</div>
+      <div class="carousel-slide p-6 bg-slate-700 rounded-xl">📡 Each float surfaces every 10 days to transmit data via satellite.</div>
+      <div class="carousel-slide p-6 bg-slate-700 rounded-xl">❄️ Argo floats even operate under seasonal sea ice.</div>
+      <div class="flex justify-between mt-4">
+        <button id="prev" class="px-4 py-2 bg-cyan-500 rounded-lg">⬅</button>
+        <button id="next" class="px-4 py-2 bg-cyan-500 rounded-lg">➡</button>
+      </div>
+      <div id="dots" class="flex justify-center mt-2 gap-2"></div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section id="faq" class="py-16 px-6">
+    <h2 class="text-3xl font-bold text-center mb-8">Frequently Asked Questions</h2>
+    <div class="max-w-2xl mx-auto">
+      <div class="faq mb-4 p-4 bg-slate-800 rounded-lg cursor-pointer">
+        <h3 class="faq-question font-semibold">What is Argo?</h3>
+        <div class="faq-answer text-slate-300 mt-2">Argo is a global network of ocean profiling floats measuring temperature and salinity.</div>
+      </div>
+      <div class="faq mb-4 p-4 bg-slate-800 rounded-lg cursor-pointer">
+        <h3 class="faq-question font-semibold">How often do floats collect data?</h3>
+        <div class="faq-answer text-slate-300 mt-2">Each float collects a vertical profile every 10 days.</div>
+      </div>
+      <div class="faq mb-4 p-4 bg-slate-800 rounded-lg cursor-pointer">
+        <h3 class="faq-question font-semibold">Who uses Argo data?</h3>
+        <div class="faq-answer text-slate-300 mt-2">Scientists, climate researchers, meteorological services, and policymakers worldwide.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-6 text-center bg-slate-900">
+    <p class="text-slate-400">© 2025 Argo Program. All Rights Reserved.</p>
+  </footer>
+
+  <!-- JavaScript -->
+  <script>
+    // Mobile menu toggle
+    document.getElementById('menu-toggle').onclick = () => {
+      document.getElementById('menu').classList.toggle('hidden');
+    };
+
+    // Theme toggle
+    const themeToggle = document.getElementById('theme-toggle');
+    themeToggle.onclick = () => {
+      document.body.classList.toggle('bg-white');
+      document.body.classList.toggle('text-black');
+      document.body.classList.toggle('bg-slate-900');
+      document.body.classList.toggle('text-white');
+      themeToggle.textContent = document.body.classList.contains('bg-white') ? '☀️' : '🌙';
+    };
+
+    // FAQ toggle
+    document.querySelectorAll('.faq').forEach(faq => {
+      faq.addEventListener('click', () => {
+        faq.classList.toggle('active');
+      });
+    });
+
+    // Carousel
+    const slides = document.querySelectorAll('.carousel-slide');
+    const dotsContainer = document.getElementById('dots');
+    let currentIndex = 0;
+
+    slides.forEach((_, i) => {
+      const dot = document.createElement('button');
+      dot.className = 'w-3 h-3 rounded-full bg-slate-500';
+      if (i === 0) dot.classList.add('bg-cyan-400');
+      dot.onclick = () => showSlide(i);
+      dotsContainer.appendChild(dot);
+    });
+
+    function showSlide(index) {
+      slides[currentIndex].classList.remove('active');
+      dotsContainer.children[currentIndex].classList.remove('bg-cyan-400');
+      dotsContainer.children[currentIndex].classList.add('bg-slate-500');
+
+      currentIndex = (index + slides.length) % slides.length;
+
+      slides[currentIndex].classList.add('active');
+      dotsContainer.children[currentIndex].classList.remove('bg-slate-500');
+      dotsContainer.children[currentIndex].classList.add('bg-cyan-400');
+    }
+
+    document.getElementById('prev').onclick = () => showSlide(currentIndex - 1);
+    document.getElementById('next').onclick = () => showSlide(currentIndex + 1);
+  </script>
+</body>
+</html>
