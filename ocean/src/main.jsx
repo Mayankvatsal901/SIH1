@@ -5,18 +5,29 @@ import { RouterProvider, createBrowserRouter, createRoutesFromElements, Route } 
 
 import Layout from './Layout';
 import Home from './components/Home/Home';
-import Login from './components/Login/Login';
+
 import About from './components/About/About';
 import SignUp from './components/Signup/Signup';
+import Faq from './components/Faq/Faq';
+import Map from './components/Map/Map';
+import Chatbot from './components/Chatbot/Chatbot';
+import Talk from './components/Talk/Talk';
+
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Layout />}>
       <Route index element={<Home />} />
       <Route path="/about" element={<About/>}/>
+      <Route path="/features"/>
+      <Route path="/facts"/>
+      <Route path="/chatbot" element={<Chatbot/>}/>
+      <Route path="/faq" element={<Faq/>}/>
+      <Route path="/map" element={<Map/>}/>
+      <Route path="/talkai" element={<Talk/>}/>
+      
 
-      <Route path="/login" element={<Login/>} />
-      <Route path="/signup" element={<SignUp/>}/>
+    
     </Route>  // Closing the root route here
   )
 );

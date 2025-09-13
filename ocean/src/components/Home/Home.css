@@ -1,0 +1,130 @@
+/* src/components/HomePage.css */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+html {
+    scroll-behavior: smooth;
+}
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #0f172a;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ... (paste all the other CSS rules from your file here) ... */
+
+.professional-gradient {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+}
+
+.accent-gradient {
+    background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 50%, #0891b2 100%);
+}
+
+.data-pulse {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+    70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); }
+    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+}
+
+.counter {
+    font-variant-numeric: tabular-nums;
+}
+
+.glass-effect {
+    background: rgba(30, 41, 59, 0.8);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(148, 163, 184, 0.1);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.card-hover {
+    transition: all 0.3s ease;
+}
+
+.card-hover:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+}
+
+.carousel-slide {
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+.carousel-slide.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+.carousel-dot {
+    transition: background-color 0.3s ease;
+}
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out, padding 0.3s ease-in-out;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+.faq-item.open .faq-answer {
+    max-height: 200px;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+.faq-item .faq-arrow {
+    transition: transform 0.3s ease-in-out;
+}
+.faq-item.open .faq-arrow {
+    transform: rotate(180deg);
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in-up {
+    opacity: 0;
+    animation: fadeInUp 0.8s ease-out forwards;
+}
+.leaflet-container {
+    position: absolute !important;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* Light Theme Styles */
+body.light { background-color: #f8fafc; color: #0f172a; }
+body.light .glass-effect { background: rgba(255, 255, 255, 0.7); border: 1px solid rgba(226, 232, 240, 1); }
+body.light .bg-slate-900 { background-color: #f1f5f9; }
+body.light .bg-slate-800\/50 { background-color: rgba(226, 232, 240, 0.5); }
+body.light .bg-slate-800\/30 { background-color: rgba(241, 245, 249, 1); }
+body.light .bg-slate-950 { background-color: #e2e8f0; }
+body.light .border-slate-700\/50 { border-color: rgba(203, 213, 225, 0.5); }
+body.light .border-slate-800 { border-color: #cbd5e1; }
+body.light .text-slate-100 { color: #1e293b; }
+body.light .text-slate-300 { color: #475569; }
+body.light .text-slate-400 { color: #64748b; }
+body.light .professional-gradient { background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%); }
+body.light .card-hover:hover { box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); }
+body.light #climate-query, body.light #weather-query, body.light #research-query, body.light #suggestion-box { background-color: #e2e8f0; border-color: #cbd5e1; color: #1e293b; }
+body.light #climate-query::placeholder, body.light #weather-query::placeholder, body.light #research-query::placeholder, body.light #suggestion-box::placeholder { color: #94a3b8; }
+body.light .from-cyan-900\/20 { --tw-gradient-from: rgba(207, 250, 254, 0.2); }
+body.light .to-blue-900\/20 { --tw-gradient-to: rgba(219, 234, 254, 0.2); }
+body.light .faq-question { background-color: #f1f5f9; }
+body.light .faq-answer { background-color: #f8fafc; }
+body.light .advanced-ocean-heading { color: #0891b2; }
+body.light .argo-diagram-bg { fill: #e2e8f0; }
+body.light .argo-diagram-water { fill: #f0f9ff; }
+body.light .argo-diagram-text { fill: #475569; }
+body.light .argo-diagram-arrow { stroke: #64748b; }
+body.light .argo-diagram-float { fill: #0ea5e9; }
+body.light .argo-diagram-highlight { color: #0891b2; }
